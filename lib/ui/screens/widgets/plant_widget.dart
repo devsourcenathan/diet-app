@@ -8,12 +8,10 @@ class PlantWidget extends StatelessWidget {
   const PlantWidget({
     Key? key,
     required this.menu,
-    required this.plantList,
   }) : super(key: key);
 
   // final int index;
   final Map<String, dynamic> menu;
-  final List<Plant> plantList;
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +19,14 @@ class PlantWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   PageTransition(
-        //       child: DetailPage(
-        //         plantId: plantList[index].plantId,
-        //       ),
-        //       type: PageTransitionType.bottomToTop),
-        // );
+        Navigator.push(
+          context,
+          PageTransition(
+              child: DetailPage(
+                menu: menu,
+              ),
+              type: PageTransitionType.bottomToTop),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -60,7 +58,12 @@ class PlantWidget extends StatelessWidget {
                   right: 0,
                   child: SizedBox(
                     height: 80.0,
-                    child: Image.asset(plantList[1].imageURL),
+                    child: menu.containsKey('imageUrl')
+                        ? Image.network(
+                            menu['imageUrl'],
+                            fit: BoxFit.cover,
+                          )
+                        : const Icon(Icons.image_not_supported),
                   ),
                 ),
                 Positioned(
@@ -69,9 +72,11 @@ class PlantWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(menu['type_repas']),
                       Text(
-                        menu['nom'],
+                        menu['type_repas'] ?? "Type inconnu",
+                      ),
+                      Text(
+                        menu['nom'] ?? "",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -86,7 +91,7 @@ class PlantWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(right: 10),
               child: Text(
-                "Pas defini",
+                '${menu['price'] ?? 0} FCFA',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,

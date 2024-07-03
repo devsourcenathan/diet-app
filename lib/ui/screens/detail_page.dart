@@ -3,8 +3,9 @@ import 'package:diet_app/constants.dart';
 import 'package:diet_app/models/plants.dart';
 
 class DetailPage extends StatefulWidget {
-  final int plantId;
-  const DetailPage({Key? key, required this.plantId}) : super(key: key);
+  final Map<String, dynamic> menu;
+
+  const DetailPage({Key? key, required this.menu}) : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -52,34 +53,34 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    debugPrint('favorite');
-                  },
-                  child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Constants.primaryColor.withOpacity(.15),
-                    ),
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            bool isFavorited = toggleIsFavorated(
-                                _plantList[widget.plantId].isFavorated);
-                            _plantList[widget.plantId].isFavorated =
-                                isFavorited;
-                          });
-                        },
-                        icon: Icon(
-                          _plantList[widget.plantId].isFavorated == true
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: Constants.primaryColor,
-                        )),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     debugPrint('favorite');
+                //   },
+                //   child: Container(
+                //     height: 40,
+                //     width: 40,
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(25),
+                //       color: Constants.primaryColor.withOpacity(.15),
+                //     ),
+                //     child: IconButton(
+                //         onPressed: () {
+                //           setState(() {
+                //             bool isFavorited = toggleIsFavorated(
+                //                 _plantList[widget.plantId].isFavorated);
+                //             _plantList[widget.plantId].isFavorated =
+                //                 isFavorited;
+                //           });
+                //         },
+                //         icon: Icon(
+                //           _plantList[widget.plantId].isFavorated == true
+                //               ? Icons.favorite
+                //               : Icons.favorite_border,
+                //           color: Constants.primaryColor,
+                //         )),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -98,7 +99,7 @@ class _DetailPageState extends State<DetailPage> {
                     left: 0,
                     child: SizedBox(
                       height: 350,
-                      child: Image.asset(_plantList[widget.plantId].imageURL),
+                      child: Image.network(widget.menu['imageUrl']),
                     ),
                   ),
                   Positioned(
@@ -111,19 +112,17 @@ class _DetailPageState extends State<DetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           PlantFeature(
-                            title: 'Size',
-                            plantFeature: _plantList[widget.plantId].size,
+                            title: 'Calories',
+                            plantFeature: widget.menu['apport_nutritif'],
                           ),
                           PlantFeature(
-                            title: 'Humidity',
-                            plantFeature:
-                                _plantList[widget.plantId].humidity.toString(),
+                            title: 'Type',
+                            plantFeature: widget.menu['type_repas'],
                           ),
-                          PlantFeature(
-                            title: 'Temperature',
-                            plantFeature:
-                                _plantList[widget.plantId].temperature,
-                          ),
+                          // PlantFeature(
+                          //   title: 'Recette',
+                          //   plantFeature: widget.menu['recette'],
+                          // ),
                         ],
                       ),
                     ),
@@ -158,7 +157,7 @@ class _DetailPageState extends State<DetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _plantList[widget.plantId].plantName,
+                            widget.menu['nom'],
                             style: TextStyle(
                               color: Constants.primaryColor,
                               fontWeight: FontWeight.bold,
@@ -169,7 +168,7 @@ class _DetailPageState extends State<DetailPage> {
                             height: 10,
                           ),
                           Text(
-                            r'$' + _plantList[widget.plantId].price.toString(),
+                            "${widget.menu['price']} FCFA",
                             style: TextStyle(
                               color: Constants.blackColor,
                               fontSize: 24.0,
@@ -181,7 +180,7 @@ class _DetailPageState extends State<DetailPage> {
                       Row(
                         children: [
                           Text(
-                            _plantList[widget.plantId].rating.toString(),
+                            "3.5",
                             style: TextStyle(
                               fontSize: 30.0,
                               color: Constants.primaryColor,
@@ -201,7 +200,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Expanded(
                     child: Text(
-                      _plantList[widget.plantId].decription,
+                      widget.menu['description'],
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         height: 1.5,
@@ -221,37 +220,37 @@ class _DetailPageState extends State<DetailPage> {
         height: 50,
         child: Row(
           children: [
-            Container(
-              height: 50,
-              width: 50,
-              child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      bool isSelected = toggleIsSelected(
-                          _plantList[widget.plantId].isSelected);
+            // Container(
+            //   height: 50,
+            //   width: 50,
+            //   child: IconButton(
+            //       onPressed: () {
+            //         setState(() {
+            //           bool isSelected = toggleIsSelected(
+            //               _plantList[widget.plantId].isSelected);
 
-                      _plantList[widget.plantId].isSelected = isSelected;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: _plantList[widget.plantId].isSelected == true
-                        ? Colors.white
-                        : Constants.primaryColor,
-                  )),
-              decoration: BoxDecoration(
-                  color: _plantList[widget.plantId].isSelected == true
-                      ? Constants.primaryColor.withOpacity(.5)
-                      : Colors.white,
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 1),
-                      blurRadius: 5,
-                      color: Constants.primaryColor.withOpacity(.3),
-                    ),
-                  ]),
-            ),
+            //           _plantList[widget.plantId].isSelected = isSelected;
+            //         });
+            //       },
+            //       icon: Icon(
+            //         Icons.shopping_cart,
+            //         color: _plantList[widget.plantId].isSelected == true
+            //             ? Colors.white
+            //             : Constants.primaryColor,
+            //       )),
+            //   decoration: BoxDecoration(
+            //       color: _plantList[widget.plantId].isSelected == true
+            //           ? Constants.primaryColor.withOpacity(.5)
+            //           : Colors.white,
+            //       borderRadius: BorderRadius.circular(50),
+            //       boxShadow: [
+            //         BoxShadow(
+            //           offset: const Offset(0, 1),
+            //           blurRadius: 5,
+            //           color: Constants.primaryColor.withOpacity(.3),
+            //         ),
+            //       ]),
+            // ),
             const SizedBox(
               width: 20,
             ),
@@ -269,7 +268,7 @@ class _DetailPageState extends State<DetailPage> {
                     ]),
                 child: const Center(
                   child: Text(
-                    'BUY NOW',
+                    'COMMANDER MAINTENANT',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
@@ -302,7 +301,9 @@ class PlantFeature extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            color: Constants.blackColor,
+            color: Colors.deepPurpleAccent,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         Text(

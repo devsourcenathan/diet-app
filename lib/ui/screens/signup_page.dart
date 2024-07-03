@@ -1,3 +1,5 @@
+import 'package:diet_app/screens/auth/splash_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diet_app/constants.dart';
 import 'package:diet_app/ui/root_page.dart';
@@ -15,6 +17,33 @@ class SignUp extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     TextEditingController nameController = TextEditingController();
+    Future<void> signUp() async {
+      try {
+        UserCredential credential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        await credential.user?.updateProfile(displayName: nameController.text);
+
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            child: const SplashScreen(),
+            type: PageTransitionType.bottomToTop,
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          print('The account already exists for that email.');
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
 
     return Scaffold(
       body: Padding(
@@ -79,43 +108,6 @@ class SignUp extends StatelessWidget {
               ),
               const SizedBox(
                 height: 20,
-              ),
-              Row(
-                children: const [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('OR'),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: size.width,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Constants.primaryColor),
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: Image.asset('assets/images/google.png'),
-                    ),
-                    Text(
-                      'Sign Up with Google',
-                      style: TextStyle(
-                        color: Constants.blackColor,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ],
-                ),
               ),
               const SizedBox(
                 height: 20,

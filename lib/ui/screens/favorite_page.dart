@@ -51,7 +51,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return PlantWidget(
                       menu: {},
-                      plantList: widget.favoritedPlants,
+                      // plantList: widget.favoritedPlants,
                     );
                   }),
             ),

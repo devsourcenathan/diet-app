@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:diet_app/constants.dart';
 import 'package:diet_app/ui/screens/widgets/profile_widget.dart';
@@ -85,7 +86,8 @@ class ProfilePage extends StatelessWidget {
                     title: 'Share',
                   ),
                   GestureDetector(
-                    onTap: () async {
+                    onTap: () {
+                      FirebaseAuth.instance.signOut();
                       Navigator.pushNamed(context, '/auth');
                     },
                     child: const ProfileWidget(
