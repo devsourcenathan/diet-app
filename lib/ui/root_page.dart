@@ -97,9 +97,10 @@ class _RootPageState extends State<RootPage> {
                   child: const ScanPage(),
                   type: PageTransitionType.bottomToTop));
         },
-        child: Image.asset(
-          'assets/images/code-scan-two.png',
-          height: 30.0,
+        child: Icon(
+          color: Colors.white,
+          Icons.add_box_outlined,
+          size: 35,
         ),
         backgroundColor: Constants.primaryColor,
       ),

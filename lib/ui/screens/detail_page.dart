@@ -113,11 +113,11 @@ class _DetailPageState extends State<DetailPage> {
                         children: [
                           PlantFeature(
                             title: 'Calories',
-                            plantFeature: widget.menu['apport_nutritif'],
+                            plantFeature: widget.menu['apport_nutritif'] ?? "-",
                           ),
                           PlantFeature(
                             title: 'Type',
-                            plantFeature: widget.menu['type_repas'],
+                            plantFeature: widget.menu['type_repas'] ?? "-",
                           ),
                           // PlantFeature(
                           //   title: 'Recette',
@@ -157,7 +157,7 @@ class _DetailPageState extends State<DetailPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.menu['nom'],
+                            widget.menu['nom'] ?? "",
                             style: TextStyle(
                               color: Constants.primaryColor,
                               fontWeight: FontWeight.bold,
@@ -168,7 +168,7 @@ class _DetailPageState extends State<DetailPage> {
                             height: 10,
                           ),
                           Text(
-                            "${widget.menu['price']} FCFA",
+                            "${widget.menu['price'] ?? 0} FCFA",
                             style: TextStyle(
                               color: Constants.blackColor,
                               fontSize: 24.0,
@@ -200,7 +200,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Expanded(
                     child: Text(
-                      widget.menu['description'],
+                      widget.menu['description'] ?? "",
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         height: 1.5,
