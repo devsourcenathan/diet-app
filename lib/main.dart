@@ -8,7 +8,6 @@ import 'package:diet_app/ui/root_page.dart';
 import 'package:diet_app/utilities/config.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

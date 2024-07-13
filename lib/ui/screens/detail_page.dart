@@ -1,3 +1,4 @@
+import 'package:diet_app/ui/screens/add_command.dart';
 import 'package:flutter/material.dart';
 import 'package:diet_app/constants.dart';
 import 'package:diet_app/models/plants.dart';
@@ -99,7 +100,7 @@ class _DetailPageState extends State<DetailPage> {
                     left: 0,
                     child: SizedBox(
                       height: 350,
-                      child: Image.network(widget.menu['imageUrl']),
+                      child: Image.network(widget.menu['imageUrl'] ?? ""),
                     ),
                   ),
                   Positioned(
@@ -255,23 +256,45 @@ class _DetailPageState extends State<DetailPage> {
               width: 20,
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Constants.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(0, 1),
-                        blurRadius: 5,
-                        color: Constants.primaryColor.withOpacity(.3),
-                      )
-                    ]),
-                child: const Center(
-                  child: Text(
-                    'COMMANDER MAINTENANT',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
+              child: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.9,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(50),
+                              topRight: Radius.circular(50),
+                            )),
+                        child: AddCommand(
+                          menu: widget.menu,
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Constants.primaryColor,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0, 1),
+                          blurRadius: 5,
+                          color: Constants.primaryColor.withOpacity(.3),
+                        )
+                      ]),
+                  child: const Center(
+                    child: Text(
+                      'COMMANDER MAINTENANT',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
                 ),
